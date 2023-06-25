@@ -4,7 +4,7 @@ import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
-import Toggable from './components/Toggable'
+import Togglable from './components/Togglable'
 import NoteForm from './components/NoteForm'
 import noteService from './services/notes'
 import loginService from './services/login'
@@ -101,19 +101,19 @@ const App = () => {
   const loginForm = () => {
 
     return (
-      <Toggable buttonLabel='login'>
+      <Togglable buttonLabel='login'>
           <LoginForm 
             fields={{username: {value: username, setValue: setUsername}, password: {value: password, setValue: setPassword}}}
             handleSubmit={handleLogin}
           />
-      </Toggable>
+      </Togglable>
     )
   }
 
   const noteForm = () => (
-    <Toggable buttonLabel={'New Note'} ref={noteFormRef}>
+    <Togglable  buttonLabel="New note" ref={noteFormRef}>
       <NoteForm createNote={addNote} />
-    </Toggable>
+    </Togglable>
   )
 
   return (
