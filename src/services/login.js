@@ -6,7 +6,7 @@ const login = async credentials => {
   return response.data
 }
 
-const loginObject = { 
+const loginObject = {
   login
 }
 

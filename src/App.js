@@ -10,7 +10,7 @@ import noteService from './services/notes'
 import loginService from './services/login'
 
 const App = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
@@ -50,12 +50,12 @@ const App = () => {
   const toggleImportanceOf = (id) => {
     const note = notes.find(note => note.id === id)
     noteService
-      .update(id, {...note, important: !note.important})
+      .update(id, { ...note, important: !note.important })
       .then(updatedNote => {
         setNotes(notes.map(note => note.id === id ? updatedNote : note))
         console.log(`importance of ${id} needs to be toggled`)
       })
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(`the note ${note.content} does not exist in the server`)
         setTimeout(() => {
           setErrorMessage(null)
@@ -68,7 +68,7 @@ const App = () => {
     event.preventDefault()
     console.log('logging in with', username, password)
     try {
-      const user = await loginService.login({username, password,})
+      const user = await loginService.login({ username, password, })
       window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
       setUser(user)
       noteService.setToken(user.token)
@@ -102,16 +102,16 @@ const App = () => {
 
     return (
       <Togglable buttonLabel='login'>
-          <LoginForm 
-            fields={{username: {value: username, setValue: setUsername}, password: {value: password, setValue: setPassword}}}
-            handleSubmit={handleLogin}
-          />
+        <LoginForm
+          fields={{ username: { value: username, setValue: setUsername }, password: { value: password, setValue: setPassword } }}
+          handleSubmit={handleLogin}
+        />
       </Togglable>
     )
   }
 
   const noteForm = () => (
-    <Togglable  buttonLabel="New note" ref={noteFormRef}>
+    <Togglable  buttonLabel='New note' ref={noteFormRef}>
       <NoteForm createNote={addNote} />
     </Togglable>
   )
@@ -138,10 +138,10 @@ const App = () => {
       </div>
       <ul>
         {
-          notesToShow.map(note => 
-            <Note 
-              key={note.id} 
-              note={note} 
+          notesToShow.map(note =>
+            <Note
+              key={note.id}
+              note={note}
               toggleImportance={() => toggleImportanceOf(note.id)}
             />
           )

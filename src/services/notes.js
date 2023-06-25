@@ -9,20 +9,20 @@ const setToken = newToken => {
 
 const getAll = () => {
   return axios
-          .get(baseUrl)
-          .then(response => response.data.concat(
-              {
-                id: 10000,
-                content: 'This note is not saved to server',
-                date: '2019-05-30T17:30:31.098Z',
-                important: true,
-              }
-          ))
+    .get(baseUrl)
+    .then(response => response.data.concat(
+      {
+        id: 10000,
+        content: 'This note is not saved to server',
+        date: '2019-05-30T17:30:31.098Z',
+        important: true,
+      }
+    ))
 }
 
 const create = async newObject => {
   const config = {
-    headers: { Authorization: token}
+    headers: { Authorization: token }
   }
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
@@ -30,14 +30,14 @@ const create = async newObject => {
 
 const update = (id, newObject) => {
   return axios
-          .put(`${baseUrl}/${id}`, newObject)
-          .then(response => response.data)
+    .put(`${baseUrl}/${id}`, newObject)
+    .then(response => response.data)
 }
 
-const notes = { 
+const notes = {
   setToken,
-  getAll, 
-  create, 
+  getAll,
+  create,
   update
 }
 
