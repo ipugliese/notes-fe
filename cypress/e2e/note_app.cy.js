@@ -38,6 +38,21 @@ describe('Note app', function() {
       cy.contains('Logged')
       cy.contains('User: Stella Pugliese')
     })
+
+    it('login fails with wrong password', function() {
+      cy.contains('login').click()
+      cy.get('#username').type('mluukkai')
+      cy.get('#password').type('wrong')
+      cy.get('#login-button').click()
+  
+      cy.contains('Wrong credentials')
+      cy.get('.error').contains('Wrong credentials')
+      cy.get('.error')
+        .should('contain', 'Wrong credentials')
+        .and('have.css', 'color', 'rgb(255, 0, 0)')
+        .and('have.css', 'border-style', 'solid')
+      cy.get('html').should('not.contain', 'Logged')
+    })
    })
 
 
