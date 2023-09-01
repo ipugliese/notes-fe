@@ -79,11 +79,75 @@ describe('Note app', function() {
 
       it('it can be made important', function () {
         cy.contains('another note cypress')
+          .parent()
           .contains('make important')
           .click()
 
         cy.contains('another note cypress')
+          .parent()
           .contains('make not important')
+      })
+    })
+
+    describe('and several notes exist', function () {
+      beforeEach(function () {
+        cy.createNote({ content: 'first note', important: false })
+        cy.createNote({ content: 'second note', important: false })
+        cy.createNote({ content: 'third note', important: false })
+      })
+
+      it('one of those can be made important', function () {
+        cy.contains('second note')
+          .parent()
+          .contains('make important')
+          .click()
+
+        cy.contains('second note')
+          .parent()
+          .contains('make not important')
+      })
+
+      it('one of those can be made important - another way - one', function () {
+        cy.contains('second note').parent().find('button').click()
+        cy.contains('second note').parent().find('button').should('contain', 'make not important')
+      })
+
+      it('one of those can be made important - another way - two', function () {
+        cy.contains('second note').parent().find('button').as('importantButton')
+        cy.get('@importantButton').click()
+        cy.get('@importantButton').should('contain', 'make not important')
+      })
+
+      it('one of those can be made important - another way - three', function () {
+        // as create aliases
+        // Theses aliases are equivalent to write the entire sentence or command that it replaces
+        //
+        // When cy.get('@importantButton') is executed, what actually happens is that 
+        // cy.contains('second note').parent().contains('important') is executed
+        //
+        // This does not work:
+        //
+        // cy.contains('second note').parent().contains('make important').as('importantButton')
+        // cy.get('@importantButton').click()
+        // cy.get('@importantButton').should('contain', 'make not important')
+        //
+        // cy.get('@importantButton').should('contain', 'make not important') fails
+        // because cy.get('@importantButton') returns undefined
+        // because it is again trying to find a button that contains the text 'make important' 
+        // Since the button currently contains the text 'make not important', 
+        // then the button being found is not found and the returned object is undefined.
+        //
+        // To solve this, we trying to find an element that conatins 'important' because this word
+        // is present before and after the click       
+        cy.contains('second note').parent().contains('important').as('importantButton')
+        cy.get('@importantButton').click()
+        cy.get('@importantButton').should('contain', 'make not important')
+      })
+
+      it('one of those can be made important - another way - four', function () {
+        cy.contains('second note').parent().find('button').as('importantButton')
+        cy.get('@importantButton').click()
+        cy.get('@importantButton').should('contain', 'make not important')
       })
     })
 
